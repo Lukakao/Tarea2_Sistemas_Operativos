@@ -42,24 +42,24 @@ void ProcesadorThreaded::procesar_imagen(){
 		t.join(); // juntar todas las threads cuando terminen
 	}
 	cout << lineas_por_thread << endl;
-	auto tiempo_final = steady_clock::now();
+	auto tiempo_final = steady_clock::now(); // calcular duracion de ejecucion
         cout << "Tiempo de ejecucion: " << duration_cast<milliseconds>(tiempo_final-tiempo_inicial).count() << "ms" << endl;
-        imwrite(output, im);
+        imwrite(output, im); // guardar imagen con el nombre especificado (output)
 	cout << "Imagen guardada como: " << output << endl;
 }
 
 
 void ProcesadorThreaded::computar_thread(int inicio, int fin){ // inicio y fin de columna
-	for(int c=inicio;c<fin;c++){
+	for(int c=inicio;c<fin;c++){ // cada thread computara solo una seccion de la imagen
 		for(int r=0;r<width;r++ ){
 			pixel_a_gris(c,r);
 		}
 	}
 }
 
-void ProcesadorThreaded::pixel_a_gris(int c,int r){
-	Vec3b pixel = im.at<Vec3b>(c,r);
-	int gris = pixel[0]*0.114 + pixel[1]*0.587 + pixel[2]*0.299;
-	im.at<Vec3b>(c,r) = Vec3b(gris,gris,gris);
+void ProcesadorThreaded::pixel_a_gris(int c,int r){ // convierte el pixel en la cordenada (c,r) de la imagen a un vector con los colores grises 
+	Vec3b pixel = im.at<Vec3b>(c,r); // accede al pixel
+	int gris = pixel[0]*0.114 + pixel[1]*0.587 + pixel[2]*0.299; // lo convierte a un valor gris segun la luminosidad de los canales BGR
+	im.at<Vec3b>(c,r) = Vec3b(gris,gris,gris); // se setea el color en la imagen
 }
 
