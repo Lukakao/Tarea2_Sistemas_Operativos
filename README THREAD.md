@@ -1,71 +1,60 @@
-# Procesador Thread README
+# Procesamiento Multithreading de Imágenes con Validaciones
 
 ## Descripción general
 
-Este conjunto de archivos implementa un procesador de imágenes en C++ utilizando la biblioteca OpenCV. La clase `ProcesadorThreaded` aplica un filtro de escala de grises a una imagen de manera concurrente utilizando múltiples hilos. El programa principal, `main.cpp`, instancia esta clase y realiza el procesamiento con los parámetros proporcionados por el usuario.
+Este programa en C++ utiliza la biblioteca OpenCV para cargar una imagen, aplicar un filtro de escala de grises utilizando multithreading y guardar la imagen resultante. Además, incorpora validaciones para asegurarse de que las entradas sean correctas. El código está organizado en tres archivos: `main.cpp`, `procesador_threaded.cpp` y `procesador_threaded.h`.
 
-## Clase `ProcesadorThreaded` (procesador_threaded.h y procesador_threaded.cpp)
+## Uso
 
-### Constructor
-```cpp
-ProcesadorThreaded(const std::string& input_nombre, const std::string& output_nombre, const int& numero_threads);
+1. **Compilación**: Asegúrate de tener OpenCV instalado. Puedes instalar OpenCV en Ubuntu con el siguiente comando:
+
+```bash
+sudo apt-get install libopencv-dev
 ```
-- **Descripción:** Crea una instancia de `ProcesadorThreaded` con los nombres de archivo de entrada y salida, y la cantidad de hilos especificada.
-- **Entradas:**
-  - `input_nombre`: Nombre del archivo de entrada (debe tener una extensión válida, como .jpg, .png, etc.).
-  - `output_nombre`: Nombre del archivo de salida (debe tener una extensión válida, como .jpg, .png, etc.).
-  - `numero_threads`: Número de hilos a utilizar.
 
-### Métodos
-```cpp
-void procesar_imagen();
+Compila el programa con el siguiente comando:
+
+```bash
+g++ main.cpp procesador_threaded.cpp -o procesamiento_threaded -std=c++11 -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_highgui -pthread
 ```
-- **Descripción:** Inicia el procesamiento de la imagen utilizando hilos. Divide la imagen en secciones y asigna cada sección a un hilo.
 
-```cpp
-void computar_thread(int inicio, int fin);
+2. **Ejecución**: Ejecuta el programa compilado:
+
+```bash
+./procesamiento_threaded input.jpg output.jpg 4
 ```
-- **Descripción:** Método privado que realiza el procesamiento de una sección de la imagen en un hilo específico.
 
-```cpp
-void pixel_a_gris(int c, int r);
-```
-- **Descripción:** Método privado que convierte un píxel de color a escala de grises.
+Reemplaza `input.jpg` y `output.jpg` con los nombres de archivo de entrada y salida respectivamente, y `4` con el número deseado de hebras (puedes ajustar este valor según tu preferencia).
 
-## Programa principal (main.cpp)
+## Detalles de implementación
 
-### Función principal
-```cpp
-int main(int const argc, char const** argv);
-```
-- **Descripción:** Lee los parámetros de entrada, instancia `ProcesadorThreaded` y realiza el procesamiento de la imagen.
+### Clase `ProcesadorThreaded`
 
-- **Parámetros de línea de comandos:**
-  - `argv[1]`: Nombre del archivo de entrada (debe tener una extensión válida, como .jpg, .png, etc.).
-  - `argv[2]`: Nombre del archivo de salida (debe tener una extensión válida, como .jpg, .png, etc.).
-  - `argv[3]`: Número de hilos.
+- La clase toma el nombre del archivo de entrada, el nombre del archivo de salida y el número de hebras como parámetros en su constructor.
+- La función `procesar_imagen` inicializa y ejecuta un número definido de threads que procesan partes de la imagen en paralelo.
+- La función `computar_thread` realiza el procesamiento de la imagen para el rango de columnas asignado a cada thread.
 
-### Comentarios y Validaciones
-- Se verifica la cantidad correcta de argumentos de línea de comandos.
-- Se valida que los nombres de archivo tengan extensiones válidas.
-- La cantidad de hilos se convierte a un entero y se utiliza como parámetro para la instancia de `ProcesadorThreaded`.
-- Se realiza el procesamiento y se generan comentarios en la consola, incluido el tiempo de ejecución.
+### Main (`main.cpp`)
+
+- Se validan las entradas del programa, asegurándose de que los nombres de archivo tengan extensiones válidas (como .jpg, .jpeg, .png) y de que el número de hebras sea válido.
+- Se crea una instancia de la clase `ProcesadorThreaded` y se llama a la función `procesar_imagen`.
+
+## Comentarios y Validaciones
+
+- Se imprime en la consola el proceso de carga de la imagen y se valida si la imagen se ha cargado correctamente.
+- Se verifican las entradas del programa, y se muestra un mensaje de error si no cumplen con las validaciones.
+- Se imprime el tiempo de ejecución en milisegundos al final del procesamiento.
+- Se muestra un mensaje indicando el nombre del archivo de salida.
 
 ## Compilación
 
-Asegúrate de compilar el programa con el soporte de C++11 o superior y vincula las bibliotecas de OpenCV. Un ejemplo de compilación con g++ sería:
+Asegúrate de tener instalado el compilador de C++ (g++) y las bibliotecas de OpenCV. Compila el programa con el siguiente comando:
 
 ```bash
-g++ -std=c++11 main.cpp procesador_threaded.cpp -o procesador_threaded -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_highgui
+g++ main.cpp procesador_threaded.cpp -o procesamiento_threaded -std=c++11 -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_highgui -pthread
 ```
 
 ## Ejecución
 
-Ejecuta el programa compilado:
+Ejecuta el programa compilado con el comando mencionado anteriormente, proporcionando los nombres de archivo de entrada y salida, así como el número de hebras deseado.
 
-```bash
-./procesador_threaded input.jpg output.jpg 4
-```
-
-Donde `input.jpg` es el nombre del archivo de entrada, `output.jpg` es el nombre del archivo de salida y `4` es el número de hilos.
- 
