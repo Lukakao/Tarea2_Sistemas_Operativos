@@ -26,7 +26,7 @@ ProcesadorThreaded::ProcesadorThreaded(const string& input_nombre, const  string
 	this->width = im.size().width; // size[0]
 }
 
-void ProcesadorThreaded::procesar_imagen(){
+void ProcesadorThreaded::procesar_imagen(){ // funcion donde ocurre el multithreading y se asignan secciones
 	vector<thread> threads; // crear un array de threads
 	int lineas_por_thread = ceil(im.size().width / n_threads); // calcular cuantas lineas cada threads procesara
 	auto tiempo_inicial = steady_clock::now();
