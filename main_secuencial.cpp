@@ -48,7 +48,7 @@ int main(int const argc, char const** argv){
         	return 0;
 	}
 
-
+	// se ejecuta la funcion principal con los argumentos pasados desde la terminal
 	procesar_secuencial(argv[1],argv[2]);
 
 }
