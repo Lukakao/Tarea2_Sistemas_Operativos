@@ -58,5 +58,5 @@ int main(int const argc, char const** argv){
                 cout << "numero de hebras invalido" << endl;
                 return 0;
         }
-	procesar_openmp(argv[1],argv[2], cant_threads);
+	procesar_openmp(argv[1],argv[2], cant_threads); // se ejecuta la funcion con los argumentos pasados desde la terminal
 }
