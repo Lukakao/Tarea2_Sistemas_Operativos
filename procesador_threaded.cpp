@@ -12,11 +12,12 @@ using namespace std;
 using namespace chrono;
 
 
+// clase que procesara la imagen usando multithreading
 ProcesadorThreaded::ProcesadorThreaded(const string& input_nombre, const  string& output_nombre, const int& numero_threads){
-	this->output = output_nombre;
-	this->n_threads = numero_threads;
-	this->im = imread(input_nombre, IMREAD_COLOR);
-	if(im.empty()){
+	this->output = output_nombre; // nombre de como se guardara la imagen
+	this->n_threads = numero_threads; // cantidad de threads a usar
+	this->im = imread(input_nombre, IMREAD_COLOR); // carga la imagen al inicializar
+	if(im.empty()){ // chequear que se cargo correctamente, de lo contrario terminar el programa
                 cout << "No se encontró imagen " << endl;
                 exit(0);
         }
