@@ -10,7 +10,7 @@ using namespace cv;
 using namespace std;
 using namespace std::chrono;
 
-void procesar_openmp(const string& input_nombre, const  string& output_nombre, int cant_threads){ // la funcion recorre cada pixel de la imagen secuencialmente con dos for loops
+void procesar_openmp(const string& input_nombre, const  string& output_nombre, int cant_threads){ // la funcoin es similar a la funcion secuencial, pero hace uso de OpenMP para el multithreading
 	cout << "Cargando imagen... " << endl;
 	Mat img = imread(input_nombre, IMREAD_COLOR);
 	if(img.empty()){  // se valida que la imagen cargo correctamente
